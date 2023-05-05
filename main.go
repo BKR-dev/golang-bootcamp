@@ -6,4 +6,6 @@ import (
 
 func main() {
 	gr.GoRoutinesExample1()
+	gr.GoRoutinesExample2()
+
 }
