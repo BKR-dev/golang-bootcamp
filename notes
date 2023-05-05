@@ -1,0 +1,112 @@
+interesting what chatjibitty has to say about const and maps
+
+The error message invalid constant initialization: map[string]string{…} (value of type map[string]string) is not constant indicates that the variable being declared as a constant (dailyMysteryDE) cannot be initialized with a non-constant value, in this case, a map[string]string.
+
+In Go, constants must have a value that can be determined at compile-time and cannot be changed at runtime. However, maps are not fixed in size and their values can be modified at runtime, which makes them unsuitable for initialization of constants.
+
+If you want to declare a constant mapping in Go, you can use a combination of a struct and constant values as follows:
+
+go
+Copy code
+type dailyMysteryDE struct {
+	Lang string
+}
+
+const (
+	dailyMysteryDELang = "de"
+)
+
+var mystery = dailyMysteryDE{
+	Lang: dailyMysteryDELang,
+}
+Here, we define a struct dailyMysteryDE with a field Lang of type string. Then we declare a constant dailyMysteryDELang with the value "de" and use it to initialize the Lang field of the mystery variable, which is not a constant, but can be initialized with a constant value.
+
+
+
+
+
+User
+can i declare a map with a fixed size if its type string string
+ChatGPT
+In Go, you can declare a fixed-size map by specifying the capacity of the map when it is created using the built-in make function.
+
+However, it's important to note that even if you specify the capacity of the map, it can still dynamically grow in size as more elements are added to it. The capacity of a map is only a hint to the Go runtime about the expected size of the map, and it doesn't place any hard limit on the number of elements that can be added to it.
+
+That being said, if you want to create a fixed-size map of string keys and string values, you can use the following syntax:
+
+go
+Copy code
+myMap := make(map[string]string, capacity)
+Replace capacity with the desired capacity of the map. This will create a map with an initial capacity of capacity and the type map[string]string. However, as mentioned earlier, the map can still grow beyond its initial capacity if more elements are added to it.
+
+If you want a data structure with a fixed size that is guaranteed to not change, you may want to consider using an array or a slice instead of a map.
+
+
+
+
+
+User
+what would be the most efficient data structe for this map 
+
+const dailyMysteryDE = map[string]string{
+	"lang":       "de",
+	"sonntag":    "glorreichen",
+	"montag":     "freudenreichen",
+	"dienstag":   "schmerzhaften",
+	"mittwoch":   "glorreichen",
+	"donnerstag": "lichtreichen",
+	"freitag":    "schmerzhaften",
+	"samstag":    "freudenreichen",
+}
+ChatGPT
+
+2 / 2
+
+The efficiency of a data structure depends on the specific use case and the operations that need to be performed on the data. For example, if you only need to access the values in the map by key, then a map is already an efficient data structure for this purpose.
+
+However, if you need to perform operations on the keys or values, such as sorting or searching, then a different data structure may be more appropriate. In that case, you might consider using a slice of structs or a custom data structure that implements the sort.Interface interface.
+
+That being said, the map[string]string data structure is already a very efficient data structure for storing and accessing key-value pairs in Go. It provides constant time O(1) lookups by key, and its performance is optimized by the Go runtime.
+
+Therefore, for the given use case of storing a small fixed-size map of string keys and string values, a map[string]string is already an efficient and appropriate data structure to use.
+
+
+
+
+
+User
+how can i initialize a map like this with a fixed size
+
+const dailyMysteryDE = map[string]string{
+	"lang":       "de",
+	"sonntag":    "glorreichen",
+	"montag":     "freudenreichen",
+	"dienstag":   "schmerzhaften",
+	"mittwoch":   "glorreichen",
+	"donnerstag": "lichtreichen",
+	"freitag":    "schmerzhaften",
+	"samstag":    "freudenreichen",
+}
+ChatGPT
+
+2 / 2
+
+In Go, it's not possible to initialize a fixed-size map with values using the syntax you provided. The reason is that the size of a map is not fixed at the time of creation and can change dynamically as elements are added or deleted.
+
+However, you can create a fixed-size map with a capacity using the make function and then add the key-value pairs to the map individually. Here's an example of how you could create a fixed-size map with the values you provided:
+
+go
+Copy code
+myMap := make(map[string]string, 8) // create a map with a capacity of 8
+
+myMap["lang"] = "de"
+myMap["sonntag"] = "glorreichen"
+myMap["montag"] = "freudenreichen"
+myMap["dienstag"] = "schmerzhaften"
+myMap["mittwoch"] = "glorreichen"
+myMap["donnerstag"] = "lichtreichen"
+myMap["freitag"] = "schmerzhaften"
+myMap["samstag"] = "freudenreichen"
+In this example, we create a map with a capacity of 8 using the make function. We then add the key-value pairs to the map individually using the map index notation (myMap[key] = value).
+
+Note that even though we specified a capacity of 8 when creating the map, the actual size of the map will grow dynamically as elements are added to it. The capacity parameter is only a hint to the Go runtime about the expected size of the map.
